@@ -27,7 +27,5 @@ for line in fh:
     else:
         count += 1
         spam_total += float(line[line.find(':') + 1:].strip())
-    print(line)
 
-average_spam = spam_total / count
-print(average_spam)
+print('Average spam confidence:', spam_total / count)
