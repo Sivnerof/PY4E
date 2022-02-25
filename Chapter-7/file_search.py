@@ -11,6 +11,8 @@
 
 
 fname = input("Enter file name: ")
+if len(fname) < 1:
+    fname = "../Text-Files/mbox-short.txt"
 
 try:
     fh = open(fname, 'r')

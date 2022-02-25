@@ -8,6 +8,10 @@
 
 fname = input("Enter file name: ")
 fh = open(fname)
+
+if len(fname) < 1:
+    fname = "../Text-Files/romeo.txt"
+
 lst = list()
 for line in fh:
     words_in_line = line.rstrip().split()
