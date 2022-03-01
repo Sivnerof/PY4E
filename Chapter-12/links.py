@@ -2,7 +2,7 @@
     # In this assignment you will write a Python program that 
     # expands on http://www.py4e.com/code3/urllinks.py. 
     # The program will use urllib to read the HTML from the data files below, 
-    # extract the href= vaues from the anchor tags, 
+    # extract the href= vaues from the anchor tags,
     # scan for a tag that is in a particular position relative to 
     # the first name in the list, 
     # follow that link and repeat the process a number of times and 
@@ -45,4 +45,38 @@
     # Retrieving: http://py4e-data.dr-chuck.net/known_by_Mhairade.html
     # Retrieving: http://py4e-data.dr-chuck.net/known_by_Butchi.html
     # Retrieving: http://py4e-data.dr-chuck.net/known_by_Anayah.html
-        # The answer to the assignment for this execution is "Anayah". 
+        # The answer to the assignment for this execution is "Anayah".
+
+
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import ssl
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+
+url = input('Enter URL: ')
+count = int(input('Enter Count: ')) + 1
+position = int(input('Enter Position: '))
+
+
+for clicks in range(count):
+    html = urlopen(url, context=ctx).read()
+    soup = BeautifulSoup(html, "html.parser")
+    print('Retrieving...', url)
+    
+    # Retrieve all of the anchor tags
+    anchor_tags = soup('a')
+
+    # Store Hrefs In List
+    links = list()
+
+    # Loop through tags
+    for tag in anchor_tags:
+        links.append(tag.get('href'))
+    
+    # Change URL
+    url = links[position - 1]
