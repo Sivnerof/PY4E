@@ -49,3 +49,31 @@
     # Retrieved 4189 characters
     # Count: 50
     # Sum: 2...
+
+import urllib.request, urllib.parse, urllib.error
+import xml.etree.ElementTree as ET
+import ssl
+
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+url = input('Enter Location: ')
+
+try:
+    uh = urllib.request.urlopen(url, context=ctx)
+    print('Retrieving... ', url)
+except:
+    quit('Couldn\'t Open URL')
+
+tree = ET.fromstring(uh.read().decode())
+counts = tree.findall('.//count')
+
+sum_of_counts = list()
+
+for count in counts:
+    sum_of_counts.append(int(count.text))
+
+print(f'Found {len(sum_of_counts)} items. The sum of which was {sum(sum_of_counts)}.')
