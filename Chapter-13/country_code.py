@@ -48,11 +48,9 @@ while True:
         print('==== Failure To Retrieve ====')
         print(data)
         continue
-
-    #print(json.dumps(js, indent=4))
     
-    # Store results
     results = js['results'][0]['address_components']
+
     for result in results:
         if 'political' in result['types']:
             if 'country' in result['types']:
