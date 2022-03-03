@@ -46,3 +46,39 @@
     # Retrieved 2733 characters
     # Count: 50
     # Sum: 2...
+
+
+import urllib.request, urllib.parse, urllib.error
+import json
+import ssl
+
+
+# Ignore SSL certificate errors
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
+
+url = input('Enter Location: ')
+
+try:
+    uh = urllib.request.urlopen(url, context=ctx)
+    print('Retrieving... ', url)
+except:
+    quit('Couldn\'t Open URL')
+
+data = uh.read().decode()
+
+try:
+    js = json.loads(data)
+except:
+    js = None
+
+comments = js['comments']
+
+comment_sum = list()
+
+for comment in comments:
+    comment_sum.append(int(comment['count']))
+
+print(f'Found {len(comment_sum)} items. The sum of which was {sum(comment_sum)}.')
